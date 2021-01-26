@@ -1,0 +1,79 @@
+server:
+  port: 7001
+  servlet:
+    context-path: /account
+spring:
+  datasource:
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: ApiHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  #spring jackson
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    deserialization:
+      #允许对象忽略json中不存在的属性
+      fail_on_unknown_properties: false
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+#开启驼峰命名法
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      update-strategy: not_empty
+      table-prefix: ys_
+
+#mybatis分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: false
+  params: count=countSql
+
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+hystrix:
+  shareSecurityContext: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+---
+# 开发环境配置
+spring:
+  profiles: dev
+logging:
+  level:
+    root: info
+  file:
+    name: /data/yswl/log/account_service_output.log
+
+---
+# 生产环境配置
+spring:
+  profiles: prod
+logging:
+  level:
+    root: error
+  file:
+    name: /data/yswl/log/account_service_output.log

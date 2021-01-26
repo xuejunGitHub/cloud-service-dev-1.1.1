@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: account-service
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos.config.address}
+        file-extension: yml
+        shared-dataids: shareconfig.yml,common-upload.yml
+        refreshable-dataids: shareconfig.yml,common-upload.yml
+      discovery:
+        server-addr: ${nacos.server.address}
+        metadata:
+          management:
+            context-path: '${server.servlet.context-path}/actuator'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # actuator暴露所有endpoint
+        include: "*"
