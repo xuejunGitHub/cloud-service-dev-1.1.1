@@ -22,4 +22,5 @@ public class HaierUserController {
 		return userService.uploadFile(file, query);
 	}
 
+	//第一次修改
 }
